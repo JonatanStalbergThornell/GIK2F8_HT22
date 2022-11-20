@@ -44,7 +44,8 @@ function searchBooks(searchTerm) {
 
 function renderBooklist(bookList) {
     /*Element i HTML-listan visas eller döljs beroende på listans innehåll. */
-    let html = `<ul class="book-list rounded-md border-2 border-blue-400 bg-white w-full mx-auto">`
+    
+    /*let html = `<ul class="book-list rounded-md border-2 border-blue-400 bg-white w-full mx-auto">`
     for(let i = 0; i < bookList.length; i++) {
         html += `<li 
                         class="book-list__item mb-2 mx-2 last:mb-0 p-3 text-indigo-900 last:border-b-0 border-b
@@ -52,7 +53,7 @@ function renderBooklist(bookList) {
                     ${bookList[i].author} - ${bookList[i].title}  
                     </li>`
     }                
-    html += `</ul>`;
+    html += `</ul>`;*/
 
     const existingElement = document.querySelector(".book-list");
     console.log(existingElement);
@@ -61,8 +62,8 @@ function renderBooklist(bookList) {
     if(existingElement){
         root.removeChild(existingElement);
     }
+    if(bookList.length > 0) {
+        root.insertAdjacentHTML("beforeend", BookList(bookList));
 
-    root.insertAdjacentHTML("beforeend", html);
-
-
+    }
 }
