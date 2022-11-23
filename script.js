@@ -1,31 +1,25 @@
 "use strict";
 
 
-const bookList = [
-    {
-        id: 1,
-        author: "Charles Dickens",
-        title: "Oliver Twist"
-    },
-    {
-        id: 2,
-        author: "William Shakespear",
-        title: "Hamlet"
-    }
-];
-const searchField = document.getElementById("searchField");
+let bookList = [];
+window.addEventListener("load", () => {
+    getAll().then((apiBooks) => (bookList = apiBooks));
+});
+//const searchField = document.getElementById("searchField");
 
-//searchField.addEventListener("keyup", (e) => searchBooks(e.target.value));
-searchField.addEventListener("keyup", (e) => 
+searchField.addEventListener("keyup", (e) => searchBooks(e.target.value));
+/*searchField.addEventListener("keyup", (e) => 
     renderBooklist(
         bookList.filter(({title, author}) => {
             const searchTerm = e.target.value.toLowerCase();
             return title.toLowerCase().indexOf(searchTerm) >= 0 || author.toLowerCase().indexOf(searchTerm) >= 0
-    })
-));
+        })
+    )
+);*/
 
 
-//function searchBooks(searchTerm) {
+async function searchBooks(searchTerm) {
+    const bookList = await getAll();
     /* Loopa igenom bookList
     För varje varv i loopen, ta det aktuella elementet (boken)
     Jämföra titeln med söktermen
@@ -33,20 +27,14 @@ searchField.addEventListener("keyup", (e) =>
     Returnerar filteredList eller anropar renderBookList? */
     
 
-    /*for (let i = 0; i < bookList.length; i++) {
-        const title = bookList[i].title.toLowerCase();
-        if(title.indexOf(searchTerm.toLowerCase()) >= 0) {
-            filteredList.push(bookList[i]);
-        }
-    }*/
-  //  renderBooklist(
-  //      bookList.filter(
-   //     ({title, author}) => 
-   //         title.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0 ||
-  //          author.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0
-  //      )
- //   );
-//}
+    renderBooklist(
+        bookList.filter(
+        ({title, author}) => 
+           title.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0 ||
+           author.toLowerCase().indexOf(searchTerm.toLowerCase()) >= 0
+        )
+   );
+}
 
 function renderBooklist(bookList) {
     /*Element i HTML-listan visas eller döljs beroende på listans innehåll. */
@@ -65,11 +53,9 @@ function renderBooklist(bookList) {
     console.log(existingElement);
 
     const root = document.getElementById("root");
-    if(existingElement){
-        root.removeChild(existingElement);
-    }
-    if(bookList.length > 0) {
-        root.insertAdjacentHTML("beforeend", BookList(bookList));
 
-    }
+    existingElement && root.removeChild(existingElement);
+    
+    bookList.length > 0 && searchField.value && root.insertAdjacentHTML("beforeend", BookList(bookList));
 }
+
