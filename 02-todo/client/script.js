@@ -8,8 +8,10 @@ todoForm.dueDate.addEventListener("blur", (e) => validateField(e.target));
 todoForm.addEventListener("submit", onSubmit);
 
 let titleValid = true;
-let description = true;
-let dueDate = true;
+let descriptionValid = true;
+let dueDateValid = true;
+
+const api = new Api("localhost:5000/tasks");
 
 function validateField(field) {
     const {name, value} = field;
@@ -49,5 +51,22 @@ function validateField(field) {
 
 function onSubmit(e){
     e.preventDefault();
-    console.log(e);
+
+    if(titleValid && descriptionValid && dueDateValid) {
+        console.log("Submit");
+        saveTask();
+    }
+
+    function saveTask() {
+        const task = {
+            title: todoForm.title.value,
+            description: todoForm.description.value,
+            dueDate: todoForm.dueDate.value,
+            completed: false
+        };
+        
+        console.log(task);
+
+        api.create(task);
+    }
 }
