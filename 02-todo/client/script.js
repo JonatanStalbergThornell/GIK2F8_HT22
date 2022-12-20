@@ -11,7 +11,7 @@ let titleValid = true;
 let descriptionValid = true;
 let dueDateValid = true;
 
-const api = new Api("localhost:5000/tasks");
+const api = new Api("http://localhost:5000/tasks");
 
 function validateField(field) {
     const {name, value} = field;
@@ -65,8 +65,14 @@ function onSubmit(e){
             completed: false
         };
         
-        console.log(task);
-
-        api.create(task);
+        api.create(task).then(task => {
+            if(task) {
+                render()
+            }
+        });
     }
+}
+
+function render() {
+    console.log("rendering");
 }
