@@ -16,7 +16,7 @@ class Api {
                 "content-type": "application/json"
             }
         });
-        console.log(request);
+
 
         return fetch(request)
         .then(result => result.json())
@@ -25,10 +25,19 @@ class Api {
     }
 
     getAll() {
-
+        return fetch(this.url)
+        .then((result) => result.json())
+        .then((data) => data)
+        .catch((err) => console.log(err));
     }
 
-    remove() {
+    remove(id) {
+        console.log(`Removing task with id ${id}`);
 
+        return fetch(`${this.url}/${id}`, {
+            method: "DELETE",
+        })
+        .then((result) => result)
+        .catch((err) => console.log(err));
     }
 }
